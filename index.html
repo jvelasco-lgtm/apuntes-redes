@@ -1,0 +1,441 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Apuntes y práctica CCNA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=Archivo:wght@600;800&display=swap">
+<style>
+/* Layout: cabecera fija con pestañas; una columna de lectura en Apuntes, tablero de laboratorio en Práctica */
+:root{
+  --bg:#eef3f6; --surface:#ffffff; --ink:#142330; --muted:#52667a; --line:#cfdae3;
+  --accent:#0b6e8f; --accent-ink:#ffffff; --good:#17794a; --good-bg:#dff3e7; --bad:#b3261e; --bad-bg:#fbe3e0; --warn-bg:#fff1cc; --warn:#7a5600;
+  --wire:#c8362b;
+  --display:"Archivo","Arial Black",sans-serif; --body:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1a23; --surface:#172633; --ink:#e6eef4; --muted:#93a8b9; --line:#2b3f50;
+  --accent:#4cc3e6; --accent-ink:#06202b; --good:#6fd9a3; --good-bg:#12382a; --bad:#ff9b92; --bad-bg:#40201d; --warn-bg:#3d3112; --warn:#f2cf74; --wire:#ff6b5e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a23; --surface:#172633; --ink:#e6eef4; --muted:#93a8b9; --line:#2b3f50;
+  --accent:#4cc3e6; --accent-ink:#06202b; --good:#6fd9a3; --good-bg:#12382a; --bad:#ff9b92; --bad-bg:#40201d; --warn-bg:#3d3112; --warn:#f2cf74; --wire:#ff6b5e; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+.wrap{max-width:980px;margin:0 auto}
+header{padding-block:22px 10px}
+h1{font:800 clamp(26px,5vw,38px)/1.05 var(--display);margin:0;letter-spacing:-.01em;text-wrap:balance}
+.sub{color:var(--muted);margin:6px 0 0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;display:flex;gap:6px;padding-block:10px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+nav button{font:600 15px var(--body);padding:9px 16px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;cursor:pointer}
+nav button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+section.tab{padding-top:24px}
+h2{font:800 24px/1.15 var(--display);margin:34px 0 10px;text-wrap:balance}
+h2:first-child{margin-top:0}
+h3{font:600 17px var(--body);margin:22px 0 6px}
+p{margin:0 0 12px;max-width:68ch}
+ul{margin:0 0 12px;padding-left:22px;max-width:68ch} li{margin:4px 0}
+code,.mono{font-family:var(--mono);font-size:.92em}
+.rule{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);padding:14px 16px;border-radius:4px;margin:14px 0;max-width:72ch}
+.rule b.t{display:block;font:600 12px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.warn{background:var(--warn-bg);color:var(--warn);border-radius:4px;padding:12px 14px;max-width:72ch;margin:12px 0}
+.tw{overflow-x:auto;margin:10px 0 16px;max-width:100%}
+table{border-collapse:collapse;background:var(--surface);min-width:min(100%,520px)}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top;font-size:15px}
+th{background:color-mix(in srgb,var(--accent) 12%,var(--surface));font-weight:600}
+td.m,th.m{font-family:var(--mono)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.grid2>*{min-width:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px}
+.ex{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;margin:14px 0}
+.ex h3{margin-top:0}
+/* práctica */
+.lab{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;margin-bottom:16px}
+.lab h3{margin:0 0 10px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ports,.devs{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:3px}
+.port{background:#12384a;color:#fff;font:600 clamp(8px,1.9vw,12px) var(--mono);text-align:center;padding:6px 0;border-radius:2px}
+.port.on{outline:2px solid var(--accent)}
+.cell{display:flex;flex-direction:column;align-items:center}
+.wire{width:3px;height:22px;background:var(--wire)}
+.dev{font:600 clamp(11px,2.6vw,15px) var(--mono);border:2px solid var(--line);border-radius:4px;padding:5px 2px;width:100%;text-align:center;background:var(--bg)}
+.dev.src{border-color:var(--wire);background:var(--warn-bg);color:var(--ink)}
+.dev.dst{border-color:var(--accent);border-style:dashed}
+.tag{font:600 10px var(--body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);height:14px}
+.hubbox{grid-column:9 / span 4;display:flex;flex-direction:column;align-items:center;min-width:0}
+.hubbox .hub{font:600 12px var(--body);border:2px solid var(--line);padding:3px 12px;border-radius:4px;background:var(--bg)}
+.hubrow{display:flex;gap:6px;width:100%;justify-content:center;margin-top:6px}
+.hubrow .cell{flex:0 1 56px}
+.frame,.mactab{display:grid;gap:0;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.frame{grid-template-columns:1fr 1fr}
+.frame div,.mactab div{padding:8px 10px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
+.frame .h,.mactab .h{background:color-mix(in srgb,var(--accent) 12%,var(--surface));font:600 12px var(--body);letter-spacing:.04em;text-transform:uppercase}
+.frame .v{font:600 20px var(--mono)}
+.mactab{grid-template-columns:repeat(6,minmax(0,1fr))}
+.mactab div{text-align:center;font:600 13px var(--mono);min-height:34px;padding:6px 2px}
+.mactab .h{font-size:11px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.two>*{min-width:0}
+.q{margin:0 0 18px}.q h4{font:600 16px var(--body);margin:0 0 10px}
+.chk{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border:1px solid var(--line);border-radius:6px;cursor:pointer;background:var(--bg);font-size:15px}
+.opt input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent);flex:none}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt.ok{border-color:var(--good);background:var(--good-bg)}
+.opt.no{border-color:var(--bad);background:var(--bad-bg)}
+.opt.miss{border-color:var(--good);border-style:dashed}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.btn{font:600 15px var(--body);padding:11px 20px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.btn.alt{background:var(--surface);color:var(--accent)}
+.fb{margin-top:14px;padding:14px 16px;border-radius:6px;max-width:72ch}
+.fb.good{background:var(--good-bg);color:var(--ink);border:1px solid var(--good)}
+.fb.bad{background:var(--bad-bg);color:var(--ink);border:1px solid var(--bad)}
+.fb ul{margin:8px 0 0}
+.score{font:600 14px var(--mono);color:var(--muted);margin:0 0 12px}
+.rt td,.rt th{font-size:14px}
+.routerrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;text-align:center}
+.routerrow .port{font-size:clamp(9px,2.4vw,13px)}
+.pcs{display:flex;gap:8px;justify-content:center;margin-top:6px}
+.pcs .dev{width:auto;min-width:46px;padding:5px 8px}
+.netl{font:600 12px var(--mono);color:var(--muted);margin-top:6px}
+.hubr{font:600 12px var(--body);border:2px solid var(--line);padding:2px 10px;border-radius:4px;background:var(--bg)}
+@media (prefers-reduced-motion:no-preference){.btn{transition:transform .1s}.btn:active{transform:translateY(1px)}}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>Apuntes y práctica de switches y routers</h1>
+  <p class="sub">CCNA Discovery · 3.4 Capa de acceso · 3.5 Capa de distribución</p>
+</header>
+<nav role="tablist" aria-label="Secciones">
+  <button role="tab" id="t-apuntes" aria-selected="true" data-tab="apuntes">Apuntes</button>
+  <button role="tab" id="t-switch" aria-selected="false" data-tab="switch">Práctica switch</button>
+  <button role="tab" id="t-router" aria-selected="false" data-tab="router">Práctica router</button>
+</nav>
+
+<!-- ============ APUNTES ============ -->
+<section class="tab" id="apuntes">
+  <div class="rule"><b class="t">Chuleta del examen</b>
+    <p><b>Switch:</b> el destino decide <i>adónde va</i>, el origen decide si <i>aprende</i>.<br>
+    <b>Router:</b> el origen da el <i>gateway</i>, el destino da la <i>interfaz de salida</i>.</p>
+  </div>
+
+  <h2>3.4.1 La capa de acceso</h2>
+  <p>Es el nivel más básico de la red: la parte donde los hosts (ordenadores, teléfonos IP, impresoras) se conectan para usar archivos y servicios compartidos.</p>
+  <ul>
+    <li>Cada host se conecta con un cable punto a punto a un dispositivo de red: un <b>hub</b> o un <b>switch</b>.</li>
+    <li>El cable va de la NIC del host a un puerto del dispositivo.</li>
+    <li>Las tres capas de la red jerárquica son: <b>acceso</b> (hosts), <b>distribución</b> (routers y switches que unen redes) y <b>núcleo</b> (el centro rápido de la red).</li>
+  </ul>
+
+  <h2>3.4.5 Comportamiento de los switches</h2>
+  <p>El switch decide con su <b>tabla MAC</b> (qué MAC está detrás de cada puerto), no con el dibujo. Aunque veas un ordenador conectado a Fa5, si su MAC no está en la tabla, el switch no sabe que está ahí.</p>
+
+  <div class="two">
+    <div class="card"><h3 style="margin-top:0">Pregunta A: el destino</h3>
+      <div class="tw"><table><tr><th>¿Destino en la tabla?</th><th>Qué hace</th></tr>
+      <tr><td>Sí, en otro puerto</td><td>Lo envía solo a ese puerto (<b>unicast</b>)</td></tr>
+      <tr><td>No</td><td><b>Saturación</b>: lo envía por todos los puertos con cable menos el de origen</td></tr>
+      <tr><td>Sí, en el mismo puerto que el origen</td><td>Lo <b>descarta</b></td></tr></table></div>
+    </div>
+    <div class="card"><h3 style="margin-top:0">Pregunta B: el origen</h3>
+      <div class="tw"><table><tr><th>¿Origen en la tabla?</th><th>Qué hace</th></tr>
+      <tr><td>No</td><td><b>Agrega</b> la MAC de origen a la tabla</td></tr>
+      <tr><td>Sí</td><td>No hace nada</td></tr></table></div>
+    </div>
+  </div>
+
+  <h3>Cómo se responde cada pregunta de la actividad</h3>
+  <div class="tw"><table>
+    <tr><th>Situación</th><th>Pregunta 1: ¿adónde reenvía?</th><th>Pregunta 2: afirmaciones verdaderas</th></tr>
+    <tr><td>Destino en la tabla</td><td>Solo el puerto de ese destino</td><td>Unicast, se envía sólo a un puerto específico</td></tr>
+    <tr><td>Destino NO en la tabla</td><td>Todos los puertos con cable (línea roja) menos el de origen</td><td>Unicast, se distribuye por saturación a todos los puertos</td></tr>
+    <tr><td>Destino en el mismo puerto que el origen</td><td>Ningún puerto</td><td>Unicast, pero se descarta en el switch</td></tr>
+    <tr><td>Origen NO en la tabla</td><td>No cambia</td><td>Marcar además: el switch agrega la MAC de origen</td></tr>
+  </table></div>
+  <div class="warn"><b>Trampas.</b> No marques puertos sin cable (Fa2, Fa4, Fa6, Fa8, Fa10, Fa11, Fa12 si no tienen línea roja). La afirmación de <i>broadcast</i> nunca es la correcta en estos ejercicios, porque el destino es una MAC normal (0A, 0B, 0C…). El hub en Fa9 es un solo puerto, aunque detrás haya dos ordenadores.</div>
+
+  <div class="ex"><h3>Ejemplo 1: destino conocido</h3>
+    <p>Trama: destino <code>0D</code>, origen <code>0F</code>. Tabla: 0A en Fa1, 0D en Fa7, 0E y 0F en Fa9.</p>
+    <ul><li>0D está en la tabla, en Fa7 → <b>Pregunta 1: Fa7</b>.</li>
+    <li>0F ya está en la tabla → no se agrega.</li>
+    <li><b>Pregunta 2:</b> unicast, se envía sólo a un puerto específico.</li></ul></div>
+  <div class="ex"><h3>Ejemplo 2: destino desconocido</h3>
+    <p>Trama: destino <code>0C</code>, origen <code>0E</code>. Tabla: 0B en Fa3, 0D en Fa7, 0E en Fa9 (0C no aparece).</p>
+    <ul><li>0C no está en la tabla → saturación.</li>
+    <li>Puertos con cable: Fa1, Fa3, Fa5, Fa7, Fa9. El origen sale por Fa9 → <b>Pregunta 1: Fa1, Fa3, Fa5, Fa7</b>.</li>
+    <li>0E ya está en la tabla → no se agrega.</li>
+    <li><b>Pregunta 2:</b> unicast, se distribuye por saturación a todos los puertos. (Verificado como correcto en la actividad.)</li></ul></div>
+  <div class="ex"><h3>Ejemplo 3: destino y origen</h3>
+    <p>Trama: destino <code>0B</code>, origen <code>0C</code>. Tabla: 0A en Fa1, 0B en Fa3, 0F en Fa9 (0C no está).</p>
+    <ul><li>0B está en Fa3 → <b>Pregunta 1: Fa3</b>.</li>
+    <li>0C no está en la tabla → el switch la agrega.</li>
+    <li><b>Pregunta 2:</b> agrega la MAC de origen + unicast a un puerto específico.</li></ul></div>
+
+  <h2>3.5.3 Gateway predeterminado</h2>
+  <ul>
+    <li><b>Destino en la misma red:</b> el host usa ARP para saber la MAC del destino y envía la trama directamente.</li>
+    <li><b>Destino en una red remota:</b> el paquete conserva la IP del destino final, pero la trama lleva como MAC de destino la <b>MAC del router</b>.</li>
+    <li>El host conoce al router por el <b>gateway predeterminado</b>: la IP de la interfaz del router que está en <b>la misma red que el host</b>.</li>
+    <li>Si el gateway falta o está mal configurado, no se entregan mensajes a redes remotas.</li>
+  </ul>
+
+  <h2>3.5.4 Tablas de los routers</h2>
+  <div class="grid2">
+    <div class="card"><h3 style="margin-top:0">Tabla ARP</h3><p>Une una IP con su dirección MAC y la interfaz por la que se alcanza. Sirve para entregar tramas dentro de una red local.</p>
+      <div class="tw"><table><tr><th>Dirección</th><th>MAC</th><th>Interfaz</th></tr>
+      <tr><td class="m">10.1.21.1</td><td class="m">0002.a5ec.c7f9</td><td class="m">Fa0/0</td></tr>
+      <tr><td class="m">172.16.1.3</td><td class="m">0ac3.a56c.d7f5</td><td class="m">Fa0/1</td></tr></table></div></div>
+    <div class="card"><h3 style="margin-top:0">Tabla de enrutamiento</h3><p>Une una red con la interfaz de salida. Tipo <code>C</code> = red conectada directamente.</p>
+      <div class="tw"><table><tr><th>Tipo</th><th>Red</th><th>Puerto</th></tr>
+      <tr><td>C</td><td class="m">10.0.0.0/8</td><td class="m">Fa0/0</td></tr>
+      <tr><td>C</td><td class="m">172.16.0.0/16</td><td class="m">Fa0/1</td></tr></table></div></div>
+  </div>
+  <ul>
+    <li>Las entradas se crean por <b>actualización dinámica</b> (información de otros routers) o de forma <b>manual</b> por el administrador.</li>
+    <li>Si no hay ruta al destino, el router <b>descarta</b> el paquete, salvo que exista una <b>ruta por defecto</b>, que reenvía lo desconocido a otro router.</li>
+  </ul>
+
+  <h3>Método para la actividad 3.5.4.3</h3>
+  <div class="tw"><table>
+    <tr><th>Pregunta</th><th>Mira</th><th>Respuesta</th></tr>
+    <tr><td>1. ¿Gateway predeterminado?</td><td>La IP de <b>origen</b></td><td>La IP .1 de esa red (192.168.3.1, 172.16.1.1 o 10.5.5.1)</td></tr>
+    <tr><td>2. ¿Interfaz de salida?</td><td>La IP de <b>destino</b></td><td>El puerto de la tabla de rutas para la red del destino</td></tr></table></div>
+  <div class="tw"><table class="rt">
+    <tr><th>Red</th><th>Gateway</th><th>Puerto</th></tr>
+    <tr><td class="m">192.168.3.0/24</td><td class="m">192.168.3.1</td><td class="m">Ethernet1/1</td></tr>
+    <tr><td class="m">172.16.1.0/24</td><td class="m">172.16.1.1</td><td class="m">Ethernet1/2</td></tr>
+    <tr><td class="m">10.5.5.0/24</td><td class="m">10.5.5.1</td><td class="m">Ethernet1/3</td></tr></table></div>
+  <div class="ex"><h3>Ejemplos resueltos</h3>
+    <div class="tw"><table>
+    <tr><th>Origen</th><th>Destino</th><th>Gateway</th><th>Interfaz</th></tr>
+    <tr><td class="m">172.16.1.3</td><td class="m">192.168.3.5</td><td class="m">172.16.1.1</td><td class="m">Ethernet1/1</td></tr>
+    <tr><td class="m">192.168.3.6</td><td class="m">10.5.5.8</td><td class="m">192.168.3.1</td><td class="m">Ethernet1/3</td></tr>
+    <tr><td class="m">10.5.5.9</td><td class="m">172.16.1.2</td><td class="m">10.5.5.1</td><td class="m">Ethernet1/2</td></tr>
+    <tr><td class="m">172.16.1.2</td><td class="m">10.5.5.8</td><td class="m">172.16.1.1</td><td class="m">Ethernet1/3</td></tr></table></div></div>
+
+  <h2>Switch frente a router</h2>
+  <div class="tw"><table>
+    <tr><th></th><th>Switch</th><th>Router</th></tr>
+    <tr><td>Direcciones</td><td>MAC</td><td>IP</td></tr>
+    <tr><td>Tabla</td><td>Tabla MAC (MAC → puerto)</td><td>Tabla de rutas (red → interfaz)</td></tr>
+    <tr><td>El destino sirve para</td><td>Elegir el puerto</td><td>Elegir la interfaz de salida</td></tr>
+    <tr><td>El origen sirve para</td><td>Aprender su MAC</td><td>Saber cuál es el gateway</td></tr></table></div>
+  <p><button class="btn" data-go="switch">Practicar con el switch</button> <button class="btn alt" data-go="router">Practicar con el router</button></p>
+</section>
+
+<!-- ============ PRÁCTICA SWITCH ============ -->
+<section class="tab" id="switch" hidden>
+  <h2>Actividad 3.4.5: comportamiento del switch</h2>
+  <p>Problemas aleatorios como los del profe. Resuelve con la regla: destino → adónde va, origen → si aprende.</p>
+  <p class="score" id="sw-score"></p>
+  <div class="lab"><h3>Switch Catalyst 2950</h3>
+    <div class="ports" id="sw-ports"></div><div class="devs" id="sw-wires"></div><div class="devs" id="sw-devs"></div></div>
+  <div class="two">
+    <div class="lab"><h3>Trama</h3><div class="frame"><div class="h">MAC de destino</div><div class="h">MAC de origen</div><div class="v" id="sw-dst"></div><div class="v" id="sw-src"></div></div></div>
+    <div class="lab"><h3>Tabla MAC</h3><div class="mactab" id="sw-mac"></div></div>
+  </div>
+  <div class="lab">
+    <div class="q"><h4>1. ¿Adónde reenvía el switch la trama?</h4><div class="chk" id="sw-q1"></div></div>
+    <div class="q"><h4>2. Cuando el switch reenvía la trama, ¿qué afirmaciones son verdaderas?</h4><div class="opts" id="sw-q2"></div></div>
+    <div class="btns"><button class="btn" id="sw-check">Verificar</button><button class="btn alt" id="sw-new">Nuevo problema de práctica</button></div>
+    <div id="sw-fb" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ PRÁCTICA ROUTER ============ -->
+<section class="tab" id="router" hidden>
+  <h2>Actividad 3.5.4: tablas del router</h2>
+  <p>Gateway: red del origen. Interfaz de salida: red del destino.</p>
+  <p class="score" id="rt-score"></p>
+  <div class="two">
+    <div class="lab"><h3>Tabla de rutas</h3><div class="tw"><table class="rt"><tr><th>Tipo</th><th>Red</th><th>Puerto</th><th>Métrica</th></tr>
+      <tr><td>C</td><td class="m">192.168.3.0/24</td><td class="m">Ethernet1/1</td><td class="m">0/0</td></tr>
+      <tr><td>C</td><td class="m">172.16.1.0/24</td><td class="m">Ethernet1/2</td><td class="m">0/0</td></tr>
+      <tr><td>C</td><td class="m">10.5.5.0/24</td><td class="m">Ethernet1/3</td><td class="m">0/0</td></tr></table></div></div>
+    <div class="lab"><h3>Trama</h3><div class="frame"><div class="h">IP de destino</div><div class="h">IP de origen</div><div class="v" id="rt-dst"></div><div class="v" id="rt-src"></div></div></div>
+  </div>
+  <div class="lab"><h3>Router</h3><div class="routerrow" id="rt-diagram"></div></div>
+  <div class="lab">
+    <div class="two">
+      <div class="q"><h4>1. ¿Cuál es la dirección del gateway predeterminado que se utiliza para reenviar este paquete al router?</h4><div class="opts" id="rt-q1"></div></div>
+      <div class="q"><h4>2. Cuando el router reciba este paquete, ¿a qué interfaz reenviará el paquete?</h4><div class="opts" id="rt-q2"></div></div>
+    </div>
+    <div class="btns"><button class="btn" id="rt-check">Verificar</button><button class="btn alt" id="rt-new">Nuevo problema de práctica</button></div>
+    <div id="rt-fb" aria-live="polite"></div>
+  </div>
+</section>
+</div>
+
+<script>
+(function(){
+  /* ---------- pestañas ---------- */
+  var tabs=['apuntes','switch','router'];
+  function show(name){
+    if(tabs.indexOf(name)<0) name='apuntes';
+    tabs.forEach(function(t){
+      document.getElementById(t).hidden=(t!==name);
+      document.getElementById('t-'+t).setAttribute('aria-selected',String(t===name));
+    });
+    window.scrollTo(0,0);
+  }
+  document.querySelectorAll('[data-tab]').forEach(function(b){b.addEventListener('click',function(){location.hash=b.dataset.tab;});});
+  document.querySelectorAll('[data-go]').forEach(function(b){b.addEventListener('click',function(){location.hash=b.dataset.go;});});
+  window.addEventListener('hashchange',function(){show(location.hash.slice(1));});
+
+  function rnd(n){return Math.floor(Math.random()*n);}
+  function pick(a){return a[rnd(a.length)];}
+  function esc(s){return String(s);}
+
+  /* ---------- SWITCH ---------- */
+  var DEVS={'0A':1,'0B':3,'0C':5,'0D':7,'0E':9,'0F':9};
+  var NAMES=Object.keys(DEVS);
+  var CABLED=[1,3,5,7,9];
+  var STAT=[
+    'El switch agrega la dirección MAC de origen a la tabla MAC.',
+    'La trama es una trama de broadcast y se reenvía a todos los puertos.',
+    'La trama es una trama de unicast y se envía sólo a un puerto específico.',
+    'La trama es una trama de unicast y se distribuye por saturación a todos los puertos.',
+    'La trama es una trama de unicast, pero se descarta en el switch.'
+  ];
+  var S=null, swDone=false, swStats={ok:0,n:0};
+
+  function swGen(){
+    var src,dst,known={};
+    if(Math.random()<0.2){ // mismo puerto (hub)
+      src=pick(['0E','0F']); dst=src==='0E'?'0F':'0E';
+      NAMES.forEach(function(n){known[n]=Math.random()<0.5;}); known[dst]=true;
+    } else {
+      do{src=pick(NAMES);dst=pick(NAMES);}while(src===dst||DEVS[src]===DEVS[dst]);
+      NAMES.forEach(function(n){known[n]=Math.random()<0.5;});
+      if(Math.random()<0.5) known[dst]=true; else known[dst]=false;
+    }
+    S={src:src,dst:dst,known:known};
+    swDone=false;
+  }
+  function swSolve(){
+    var ps=DEVS[S.src],pd=DEVS[S.dst],kd=S.known[S.dst],ks=S.known[S.src];
+    var ports=[],st=[false,false,false,false,false];
+    if(kd){ if(pd===ps){st[4]=true;} else {ports=[pd];st[2]=true;} }
+    else { ports=CABLED.filter(function(p){return p!==ps;}); st[3]=true; }
+    if(!ks) st[0]=true;
+    return {ports:ports,st:st,kd:kd,ks:ks,ps:ps,pd:pd};
+  }
+  function swRender(){
+    var P=document.getElementById('sw-ports'),W=document.getElementById('sw-wires'),D=document.getElementById('sw-devs');
+    var ph='',wh='',dh='',i;
+    for(i=1;i<=12;i++) ph+='<div class="port">Fa'+i+'</div>';
+    var map={1:'0A',3:'0B',5:'0C',7:'0D'};
+    for(i=1;i<=12;i++){
+      if(map[i]){wh+='<div class="cell"><div class="wire"></div></div>';
+        var n=map[i],cls=n===S.src?' src':'';
+        dh+='<div class="cell"><div class="dev'+cls+'">'+n+'</div><div class="tag">'+(n===S.src?'origen':'')+'</div></div>';
+      } else if(i===9){
+        wh+='<div class="cell"><div class="wire"></div></div>';
+        dh+='<div class="hubbox"><div class="hub">Hub</div><div class="hubrow">'+
+          ['0E','0F'].map(function(n){return '<div class="cell"><div class="dev'+(n===S.src?' src':'')+'">'+n+'</div><div class="tag">'+(n===S.src?'origen':'')+'</div></div>';}).join('')+'</div></div>';
+      } else if(i<9||i>12){wh+='<div></div>';dh+='<div></div>';}
+      else {wh+='<div></div>';} // 10-12: hubbox ya ocupa columnas 9-12
+    }
+    P.innerHTML=ph;W.innerHTML=wh;D.innerHTML=dh;
+    document.getElementById('sw-dst').textContent=S.dst;
+    document.getElementById('sw-src').textContent=S.src;
+    // tabla MAC
+    var cells={};for(i=1;i<=12;i++)cells[i]=[];
+    NAMES.forEach(function(n){if(S.known[n])cells[DEVS[n]].push(n);});
+    var mh='';
+    [[1,6],[7,12]].forEach(function(r){
+      for(i=r[0];i<=r[1];i++) mh+='<div class="h">Fa'+i+'</div>';
+      for(i=r[0];i<=r[1];i++) mh+='<div>'+cells[i].join(' ')+'</div>';
+    });
+    document.getElementById('sw-mac').innerHTML=mh;
+    // preguntas
+    var q1='';for(i=1;i<=12;i++) q1+='<label class="opt" data-p="'+i+'"><input type="checkbox" name="p" value="'+i+'">Fa'+i+'</label>';
+    document.getElementById('sw-q1').innerHTML=q1;
+    document.getElementById('sw-q2').innerHTML=STAT.map(function(s,k){return '<label class="opt" data-s="'+k+'"><input type="checkbox" name="s" value="'+k+'">'+s+'</label>';}).join('');
+    document.getElementById('sw-fb').innerHTML='';
+    document.getElementById('sw-score').textContent='Aciertos: '+swStats.ok+' de '+swStats.n;
+  }
+  function swCheck(){
+    if(swDone) return;
+    var sol=swSolve();
+    var gotP=[].slice.call(document.querySelectorAll('#sw-q1 input:checked')).map(function(x){return +x.value;}).sort(function(a,b){return a-b;});
+    var gotS=[].slice.call(document.querySelectorAll('#sw-q2 input:checked')).map(function(x){return +x.value;});
+    var okP=JSON.stringify(gotP)===JSON.stringify(sol.ports.slice().sort(function(a,b){return a-b;}));
+    var okS=true;for(var k=0;k<5;k++){if((gotS.indexOf(k)>=0)!==sol.st[k]) okS=false;}
+    document.querySelectorAll('#sw-q1 .opt').forEach(function(l){
+      var p=+l.dataset.p,should=sol.ports.indexOf(p)>=0,on=l.querySelector('input').checked;
+      if(on&&should)l.classList.add('ok');else if(on&&!should)l.classList.add('no');else if(!on&&should)l.classList.add('miss');
+    });
+    document.querySelectorAll('#sw-q2 .opt').forEach(function(l){
+      var k=+l.dataset.s,should=sol.st[k],on=l.querySelector('input').checked;
+      if(on&&should)l.classList.add('ok');else if(on&&!should)l.classList.add('no');else if(!on&&should)l.classList.add('miss');
+    });
+    var why=[];
+    if(sol.kd){
+      if(sol.pd===sol.ps) why.push('El destino '+S.dst+' está en la tabla, en Fa'+sol.pd+', el mismo puerto por el que entró la trama (Fa'+sol.ps+'). El switch la descarta y no la reenvía a ningún puerto.');
+      else why.push('El destino '+S.dst+' está en la tabla, en Fa'+sol.pd+'. Se envía solo a ese puerto (unicast).');
+    } else {
+      why.push('El destino '+S.dst+' no está en la tabla. El switch satura: envía por todos los puertos con cable ('+CABLED.map(function(p){return 'Fa'+p;}).join(', ')+') menos el de origen, Fa'+sol.ps+'. Quedan '+sol.ports.map(function(p){return 'Fa'+p;}).join(', ')+'.');
+    }
+    why.push(sol.ks?'El origen '+S.src+' ya está en la tabla, así que el switch no agrega nada.':'El origen '+S.src+' no está en la tabla, así que el switch lo agrega (Fa'+sol.ps+').');
+    var ok=okP&&okS;swDone=true;swStats.n++;if(ok)swStats.ok++;
+    document.getElementById('sw-score').textContent='Aciertos: '+swStats.ok+' de '+swStats.n;
+    document.getElementById('sw-fb').innerHTML='<div class="fb '+(ok?'good':'bad')+'"><b>'+(ok?'Correcto.':'Revisa tu respuesta.')+'</b> '+
+      (okP?'Pregunta 1 bien. ':'Pregunta 1 mal. ')+(okS?'Pregunta 2 bien.':'Pregunta 2 mal.')+
+      '<ul>'+why.map(function(w){return '<li>'+w+'</li>';}).join('')+'</ul></div>';
+  }
+  document.getElementById('sw-check').addEventListener('click',swCheck);
+  document.getElementById('sw-new').addEventListener('click',function(){swGen();swRender();});
+
+  /* ---------- ROUTER ---------- */
+  var NETS=[
+    {pre:'192.168.3.',gw:'192.168.3.1',port:'Ethernet1/1',name:'192.168.3.0/24',pn:'E1/1'},
+    {pre:'172.16.1.',gw:'172.16.1.1',port:'Ethernet1/2',name:'172.16.1.0/24',pn:'E1/2'},
+    {pre:'10.5.5.',gw:'10.5.5.1',port:'Ethernet1/3',name:'10.5.5.0/24',pn:'E1/3'}
+  ];
+  var R=null,rtDone=false,rtStats={ok:0,n:0};
+  function rtGen(){
+    var a=rnd(3),b;do{b=rnd(3);}while(b===a);
+    var h1=2+rnd(8),h2=2+rnd(8);
+    R={a:a,b:b,src:NETS[a].pre+h1,dst:NETS[b].pre+h2,pc:rnd(2)};
+    rtDone=false;
+  }
+  function rtRender(){
+    document.getElementById('rt-src').textContent=R.src;
+    document.getElementById('rt-dst').textContent=R.dst;
+    var h='';
+    NETS.forEach(function(n,i){
+      h+='<div><div class="port">'+n.pn+'</div><div class="cell"><div class="wire"></div></div><span class="hubr">Hub</span><div class="pcs">'+
+        [0,1].map(function(k){var s=(i===R.a&&k===R.pc);return '<div class="dev'+(s?' src':'')+'">'+(s?'origen':'PC')+'</div>';}).join('')+
+        '</div><div class="netl">'+n.name+'</div></div>';
+    });
+    document.getElementById('rt-diagram').innerHTML=h;
+    document.getElementById('rt-q1').innerHTML=NETS.map(function(n,i){return '<label class="opt" data-i="'+i+'"><input type="radio" name="g" value="'+i+'"><span class="mono">'+n.gw+'</span></label>';}).join('');
+    document.getElementById('rt-q2').innerHTML=NETS.map(function(n,i){return '<label class="opt" data-i="'+i+'"><input type="radio" name="f" value="'+i+'"><span class="mono">'+n.port+'</span></label>';}).join('');
+    document.getElementById('rt-fb').innerHTML='';
+    document.getElementById('rt-score').textContent='Aciertos: '+rtStats.ok+' de '+rtStats.n;
+  }
+  function rtCheck(){
+    if(rtDone) return;
+    var g=document.querySelector('#rt-q1 input:checked'),f=document.querySelector('#rt-q2 input:checked');
+    var gv=g?+g.value:-1,fv=f?+f.value:-1;
+    var okG=gv===R.a,okF=fv===R.b;
+    [['#rt-q1',R.a,gv],['#rt-q2',R.b,fv]].forEach(function(x){
+      document.querySelectorAll(x[0]+' .opt').forEach(function(l){
+        var i=+l.dataset.i;
+        if(i===x[1]) l.classList.add(x[2]===i?'ok':'miss');
+        else if(i===x[2]) l.classList.add('no');
+      });
+    });
+    var ok=okG&&okF;rtDone=true;rtStats.n++;if(ok)rtStats.ok++;
+    document.getElementById('rt-score').textContent='Aciertos: '+rtStats.ok+' de '+rtStats.n;
+    document.getElementById('rt-fb').innerHTML='<div class="fb '+(ok?'good':'bad')+'"><b>'+(ok?'Correcto.':'Revisa tu respuesta.')+'</b><ul>'+
+      '<li>Gateway: el origen '+R.src+' está en la red '+NETS[R.a].name+', así que el gateway es <b class="mono">'+NETS[R.a].gw+'</b>.</li>'+
+      '<li>Interfaz: el destino '+R.dst+' está en la red '+NETS[R.b].name+', que en la tabla de rutas sale por <b class="mono">'+NETS[R.b].port+'</b>.</li></ul></div>';
+  }
+  document.getElementById('rt-check').addEventListener('click',rtCheck);
+  document.getElementById('rt-new').addEventListener('click',function(){rtGen();rtRender();});
+
+  swGen();swRender();rtGen();rtRender();
+  show(location.hash.slice(1));
+})();
+</script>
+
+</body></html>
